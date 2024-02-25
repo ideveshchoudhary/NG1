@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FirstService } from './appService/first.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular17';
+  products: any[] = [];
+  productImg: any;
+
+  constructor(private service: FirstService, private DomSanitizer:DomSanitizer) {
+
+  }
+
+
+  ngOnInit(): void {
+    this.getTheProducts();
+  }
+
+  getTheProducts() {
+
+    this.service.getAllProducts().subscribe((res: any) => {
+      this.products = res
+      this.productImg = res.images
+      console.log('img', this.productImg);
+      
+      console.log('this', this.products);
+    })
+  }
 }
