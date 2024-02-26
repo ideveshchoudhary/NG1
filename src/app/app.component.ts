@@ -1,34 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { FirstService } from './appService/first.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'angular17';
   products: any[] = [];
-  productImg: any;
-
-  constructor(private service: FirstService, private DomSanitizer: DomSanitizer) {
+  isDataVisible: boolean = false;
+  constructor(private service: FirstService) {
 
   }
 
 
   ngOnInit(): void {
-    this.getTheProducts();
+    // this.getTheProducts();
   }
 
   getTheProducts() {
 
-    this.service.getAllProducts().subscribe((res: any) => {
-      this.products = res
-      this.productImg = res.images
-      console.log('img', this.productImg);
 
-      console.log('this', this.products);
+    this.service.getAllProducts().subscribe({
+      next: (res: any) => {
+        this.products = res
+        this.isDataVisible = !this.isDataVisible;
+        console.log('this', this.products);
+      },
+      error: (err: any) => {
+        console.log(err)
+      }
     })
   }
+
 }

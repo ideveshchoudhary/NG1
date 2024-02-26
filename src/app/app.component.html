@@ -1,21 +1,22 @@
 <button (click)="getTheProducts()">Click Me</button>
 
+
 <div class="container">
-  <table class="table">
+  <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th>Sr. No</th>
-        <th>title</th>
-        <th>price</th>
-        <th>description</th>
-        <th>Category Id</th>
-        <th>Category Name</th>
-        <th>Category Images</th>
-        <th rowspan="3">More Images</th>
+        <th scope="col">Sr. No</th>
+        <th scope="col">title</th>
+        <th scope="col">price</th>
+        <th scope="col">description</th>
+        <th scope="col">Category Id</th>
+        <th scope="col">Category Name</th>
+        <th scope="col">Category Images</th>
+        <th scope="col" rowspan="3">More Images</th>
 
       </tr>
     </thead>
-    <tbody>
+    <tbody  *ngIf="isDataVisible">
       <tr *ngFor="let data of products; let i=index;">
         <td>{{i + 1 }}</td>
         <td>{{data.title}}</td>
@@ -24,11 +25,13 @@
         <td>{{data.category.id}}</td>
         <td>{{data.category.name}}</td>
         <td><img [src]='data.category.image'></td>
-        <td class="d-flex"><img [src]="data.images[0]"><img [src]="data.images[1]"><img [src]="data.images[2]"></td>
-
-
-
-
+        <!-- <td class="d-flex"><img [src]="data.images[0]"><img [src]="data.images[1]" class="mx-2"><img [src]="data.images[2]"></td> -->
+        <td class="d-flex">
+          <ng-container *ngFor="let image of data.images" >
+            <img [src]="image" class="mx-2">
+          </ng-container>
+        </td>
+        
       </tr>
     </tbody>
   </table>
